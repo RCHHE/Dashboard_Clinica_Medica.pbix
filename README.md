@@ -4,19 +4,18 @@ Este repositorio contiene una solución integral de Inteligencia de Negocios (BI
 
 ---
 
-## Arquitectura del Data Warehouse (SQL Server)
+## Arquitectura del Data Warehouse y Proceso ETL (SQL Server & SSIS)
 
-El pilar fundamental de este proyecto es la previa construcción y diseño de un **Data Warehouse corporativo** desarrollado en **Microsoft SQL Server** (`ClinicaDB`). Con el fin de aislar la carga transaccional de los sistemas en producción y optimizar la velocidad de respuesta, se estructuró un **Modelo Estrella (Star Schema)** mediante la implementación de vistas analíticas:
+El pilar de esta solución es un **Data Warehouse corporativo** desarrollado en **Microsoft SQL Server** (`ClinicaDB`) bajo un **Modelo Estrella (Star Schema)**. Para la ingesta, limpieza y movimiento de los datos desde los sistemas transaccionales hacia el repositorio analítico, se diseñó e implementó un flujo formal de **ETL (Extracción, Transformación y Carga)** utilizando **SQL Server Integration Services (SSIS)** en **Visual Studio**.
 
-* **Tabla de Hechos:** `vFact_CitaMedica` (Centraliza las métricas operativas de volumen de consultas, estados de cita y facturación transaccional).
-* **Tablas de Dimensiones:**
-    * `vDim_Sede` (Información geográfica e infraestructura de las clínicas).
-    * `vDim_Doctor` (Médicos staff y sus respectivas especialidades).
-    * `vDim_Paciente` (Información demográfica de los usuarios).
-    * `CALENDARIO` (Dimensión temporal limpia para el análisis de tendencias).
+### Flujo de Ingeniería de Datos (ETL)
+* **Extracción & Transformación:** Consolidación, limpieza y homogeneización de los tipos de datos transaccionales, controlando las coherencias de tiempo y campos de texto mediante componentes nativos de SSIS.
+* **Carga Dinámica:** Automatización del flujo para alimentar la estructura dimensional optimizando los tiempos de procesamiento.
+* **Modelo Multidimensional Resultante:**
+    * **Tabla de Hechos:** `vFact_CitaMedica` (Centraliza métricas de facturación, volumen de consultas y estados operativos).
+    * **Tablas de Dimensiones:** `vDim_Sede`, `vDim_Doctor`, `vDim_Paciente` y dimensión temporal integrada (`CALENDARIO`).
 
-*Nota: Todas las llaves subrogadas (Surrogate Keys - SK) fueron debidamente ocultadas en la capa de modelado para garantizar una vista de informe intuitiva y orientada 100% al negocio.*
-
+*Nota: Todas las llaves subrogadas (Surrogate Keys - SK) fueron debidamente ocultas en la capa de modelado de Power BI para asegurar una vista de informe intuitiva y orientada 100% al negocio.*
 ---
 
 ## Vista General del Dashboard (Power BI)
